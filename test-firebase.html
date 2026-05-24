@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Test</title>
+</head>
+<body>
+    <h1>Testing Firebase Connection</h1>
+    <button onclick="testFirebase()">Test Connection</button>
+    <pre id="result"></pre>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getDatabase, ref, set, get, child } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+
+        // REPLACE WITH YOUR FIREBASE CONFIG
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "YOUR_DATABASE_URL",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        window.testFirebase = async function() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = 'Testing connection...';
+            
+            try {
+                // Test write
+                const testRef = ref(database, 'test/connection');
+                await set(testRef, {
+                    message: 'Hello Firebase!',
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Test read
+                const snapshot = await get(child(ref(database), 'test/connection'));
+                if (snapshot.exists()) {
+                    resultDiv.textContent = '✅ Success! Firebase is working!\n\nData saved:\n' + JSON.stringify(snapshot.val(), null, 2);
+                } else {
+                    resultDiv.textContent = '❌ Failed to read data';
+                }
+            } catch (error) {
+                resultDiv.textContent = '❌ Error: ' + error.message;
+            }
+        };
+    </script>
+</body>
+</html>

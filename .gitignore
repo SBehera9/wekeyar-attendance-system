@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Production builds
+dist/
+build/
+*.cjs
+*.cjs.map
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Data storage (JSON files)
+data/
+*.json
+!package.json
+!package-lock.json
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Vercel
+.vercel
